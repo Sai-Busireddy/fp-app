@@ -1,0 +1,14 @@
+FROM node:18-alpine
+
+WORKDIR /app
+COPY frontend/ frontend/
+COPY .env.frontend /app/frontend/.env
+
+# install & build
+RUN corepack enable && pnpm -v && \
+    cd frontend && pnpm install && pnpm build
+
+# Next.js standalone output
+WORKDIR /app/frontend
+EXPOSE 3000
+CMD ["pnpm", "start"]
